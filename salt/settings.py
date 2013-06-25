@@ -35,7 +35,9 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
+PROJECT_APPS = (
+    'dictionary',
+)
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,9 +45,13 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'dictionary',
+    'django_extensions',
     'south',
-)
+    'tastypie',
+    'tastypie_swagger'
+) + PROJECT_APPS
+
+TASTYPIE_SWAGGER_API_MODULE = 'dictionary.api.v1_api'
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -89,7 +95,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'templates'),
+)
 
 try:
     from settings_local import *

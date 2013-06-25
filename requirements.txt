@@ -1,0 +1,26 @@
+-e git+https://github.com/django/django.git#egg=django
+
+south
+django-extensions
+
+
+ipython
+ipdb
+
+psycopg2
+dateutils
+lxml
+pyyaml
+
+django-tastypie
+django-tastypie-swagger
+
+gunicorn
+
+pylint
+pep8
+
+nose
+django-nose
+tox
+
