@@ -19,8 +19,8 @@ require.config({
   }
 });
 
-require(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
-  var AppRouter, router, _ref;
+require(['jquery', 'underscore', 'backbone', 'views/search'], function($, _, Backbone, SearchView) {
+  var AppRouter, router, search, _ref;
 
   console.log('Loading application ...');
   AppRouter = (function(_super) {
@@ -32,6 +32,7 @@ require(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
     }
 
     AppRouter.prototype.routes = {
+      "/": 'indexPage',
       "*actions": 'defaultRoute'
     };
 
@@ -39,8 +40,12 @@ require(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
 
   })(Backbone.Router);
   router = new AppRouter;
+  router.on('route:indexPage', function(actions) {
+    return alert('index');
+  });
   router.on('route:defaultRoute', function(actions) {
     alert(actions);
   });
+  search = new SearchView();
   Backbone.history.start();
 });
