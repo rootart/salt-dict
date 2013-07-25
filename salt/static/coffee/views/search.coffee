@@ -1,6 +1,6 @@
 define ['backbone', 'underscore', 'jquery'], (Backbone, _, $)->
   class SearchView extends Backbone.View
-    class: 'article.main'
+    el: 'article.main'
     events:
       'keyup input[type=text]': 'searchDefinition'
 

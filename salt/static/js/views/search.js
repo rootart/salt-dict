@@ -13,7 +13,7 @@ define(['backbone', 'underscore', 'jquery'], function(Backbone, _, $) {
       return _ref;
     }
 
-    SearchView.prototype["class"] = 'article.main';
+    SearchView.prototype.el = 'article.main';
 
     SearchView.prototype.events = {
       'keyup input[type=text]': 'searchDefinition'
