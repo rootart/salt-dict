@@ -17,6 +17,7 @@ class DefinitionResource(ModelResource):
         related_name='sources', use_in='detail'
     )
     class Meta:
+        limit = 100
         queryset = Definition.objects.all()
         resource_name = 'definitions'
         list_allowed_methods = ['get',]

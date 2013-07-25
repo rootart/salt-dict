@@ -19,8 +19,8 @@ require.config({
   }
 });
 
-require(['jquery', 'underscore', 'backbone', 'views/search'], function($, _, Backbone, SearchView) {
-  var AppRouter, router, search, _ref;
+require(['jquery', 'underscore', 'backbone', 'views/search', 'models/search', 'models/definition'], function($, _, Backbone, SearchView, SearchItemModel, DefinitionItemModel) {
+  var AppRouter, router, search, searchView, _ref;
 
   console.log('Loading application ...');
   AppRouter = (function(_super) {
@@ -32,19 +32,34 @@ require(['jquery', 'underscore', 'backbone', 'views/search'], function($, _, Bac
     }
 
     AppRouter.prototype.routes = {
-      "/": 'indexPage',
-      "*actions": 'defaultRoute'
+      "": 'indexPage',
+      ":definition": 'definitionDetails'
     };
 
     return AppRouter;
 
   })(Backbone.Router);
   router = new AppRouter;
+  searchView = new SearchView();
   router.on('route:indexPage', function(actions) {
-    return alert('index');
+    var url;
+
+    url = '/api/v1/definitions/?format=json';
+    $.get(url, function(data) {
+      var item, model, _i, _len, _ref1, _results;
+
+      _ref1 = data.objects;
+      _results = [];
+      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+        item = _ref1[_i];
+        model = new SearchItemModel(item);
+        _results.push(searchView.$('.vocabulary').prepend(searchView.renderInitialResults(model)));
+      }
+      return _results;
+    });
   });
-  router.on('route:defaultRoute', function(actions) {
-    alert(actions);
+  router.on('route:definitionDetails', function(actions) {
+    return alert(actions);
   });
   search = new SearchView();
   Backbone.history.start();

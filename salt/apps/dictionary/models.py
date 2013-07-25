@@ -35,6 +35,7 @@ class Definition(models.Model):
     class Meta:
         verbose_name=_("Definition")
         verbose_name_plural=_('Definitions')
+        ordering=('name_en',)
 
 
 class DefinitionSource(models.Model):

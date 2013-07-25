@@ -19,5 +19,6 @@ settings_local.py
 /public/static
 /public/media
 static_collected/
+node_modules/
 *.db
 *.sqlite3

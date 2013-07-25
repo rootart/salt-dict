@@ -11,20 +11,29 @@ require.config
       exports: '_'
 
 
-require ['jquery', 'underscore', 'backbone', 'views/search'],($, _, Backbone, SearchView)->
+require ['jquery', 'underscore', 'backbone', 'views/search', 'models/search', 'models/definition'],($, _, Backbone, SearchView, SearchItemModel, DefinitionItemModel)->
   console.log 'Loading application ...'
 
   class AppRouter extends Backbone.Router
     routes:
-      "/": 'indexPage'
-      "*actions": 'defaultRoute'
- 
+      "": 'indexPage'
+      ":definition": 'definitionDetails'
+
   router = new AppRouter;
+  
+  searchView = new SearchView()
   router.on 'route:indexPage', (actions)->
-    alert 'index'
-  router.on 'route:defaultRoute',(actions)->
-    alert(actions)
+    url = '/api/v1/definitions/?format=json'
+
+    $.get url,(data)->
+      for item in data.objects
+        model = new SearchItemModel(item)
+        searchView.$('.vocabulary').prepend searchView.renderInitialResults(model)
     return
+
+  router.on 'route:definitionDetails', (actions)->
+    alert actions
+
 
   search  = new SearchView()
   Backbone.history.start() 
