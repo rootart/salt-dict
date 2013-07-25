@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import sys
+
+import dj_database_url
+
 BASE_DIR = os.path.realpath(os.path.dirname(__file__))
 sys.path.append(os.path.join(BASE_DIR, 'apps'),)
 
@@ -18,6 +21,13 @@ sys.path.append(os.path.join(BASE_DIR, 'apps'),)
 
 LOCAL_TEMPLATE_CONTEXT_PROCESSORS_PREFIX = LOCAL_TEMPLATE_CONTEXT_PROCESSORS = LOCAL_MIDDLEWARE_CLASSES_PREFIX = LOCAL_MIDDLEWARE_CLASSES = LOCAL_INSTALLED_APPS_PREFIX = LOCAL_INSTALLED_APPS = ()
 
+
+DATABASES = {'default': dj_database_url.config(default='postgres://rootart@localhost/mangalia_dev')}
+DATABASES['default']['ENGINE'] = 'django_postgrespool'
+
+SOUTH_DATABASE_ADAPTERS = {
+    'default': 'south.db.postgresql_psycopg2'
+}
 
 
 # Quick-start development settings - unsuitable for production
@@ -62,23 +72,20 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages"
+)
+
 ROOT_URLCONF = 'salt.urls'
 
 WSGI_APPLICATION = 'salt.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/dev/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
-# Internationalization
-# https://docs.djangoproject.com/en/dev/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
@@ -95,8 +102,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_collected')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+print STATICFILES_DIRS
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),

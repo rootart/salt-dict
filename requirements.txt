@@ -24,3 +24,6 @@ nose
 django-nose
 tox
 
+dj-database-url
+django-postgrespool
+
