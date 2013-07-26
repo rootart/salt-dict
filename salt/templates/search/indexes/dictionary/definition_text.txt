@@ -1,0 +1,3 @@
+{{ object.name_en }}
+{{ object.name_ru }}
+{{ object.name_de }}

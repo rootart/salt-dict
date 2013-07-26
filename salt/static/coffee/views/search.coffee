@@ -5,7 +5,7 @@ define ['backbone', 'underscore', 'jquery', 'models/search'], (Backbone, _, $, S
       'keyup input[type=text]': 'searchDefinition'
 
     template: _.template("""
-    <li><a href="#<%= name_ru %>"><%= name_ru %></a></li>
+    <li><a href="#<%= name_en %>"><%= name_ru %></a></li>
     """)
 
     renderInitialResults: (item)->
@@ -15,7 +15,7 @@ define ['backbone', 'underscore', 'jquery', 'models/search'], (Backbone, _, $, S
     searchDefinition: ()->
       console.log 'searching...'
       q = @.$('input[type=text]').val()
-      url = "/api/v1/definitions/?name_en__startswith="+q+"&format=json"
+      url = "/api/v1/search/?q="+q
       self = @
 
       $.get url,(data)->

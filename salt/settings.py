@@ -58,7 +58,8 @@ INSTALLED_APPS = (
     'django_extensions',
     'south',
     'tastypie',
-    'tastypie_swagger'
+    'tastypie_swagger',
+    'haystack'
 ) + PROJECT_APPS
 
 TASTYPIE_SWAGGER_API_MODULE = 'dictionary.api.v1_api'
@@ -106,11 +107,21 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_collected')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-print STATICFILES_DIRS
+
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
+
+TASTYPIE_DEFAULT_FORMATS = ['json',]
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(os.path.dirname(__file__), 'search_index'),
+    },
+}
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 try:
     from settings_local import *

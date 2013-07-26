@@ -27,3 +27,6 @@ tox
 dj-database-url
 django-postgrespool
 
+django-haystack
+whoosh==2.4
+

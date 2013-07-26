@@ -19,7 +19,7 @@ require.config({
   }
 });
 
-require(['jquery', 'underscore', 'backbone', 'views/search', 'models/search', 'models/definition'], function($, _, Backbone, SearchView, SearchItemModel, DefinitionItemModel) {
+require(['jquery', 'underscore', 'backbone', 'views/search', 'models/search', 'models/definition', 'views/details'], function($, _, Backbone, SearchView, SearchItemModel, DefinitionItemModel, DetailView) {
   var AppRouter, router, search, searchView, _ref;
 
   console.log('Loading application ...');
@@ -59,7 +59,18 @@ require(['jquery', 'underscore', 'backbone', 'views/search', 'models/search', 'm
     });
   });
   router.on('route:definitionDetails', function(actions) {
-    return alert(actions);
+    var url;
+
+    url = '/api/v1/search/' + actions + '/';
+    return $.get(url, function(data) {
+      var details, model;
+
+      model = new Backbone.Model(data);
+      details = new DetailView({
+        'model': model
+      });
+      return $('.value').html(details.renderItem());
+    });
   });
   search = new SearchView();
   Backbone.history.start();

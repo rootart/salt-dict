@@ -19,7 +19,7 @@ define(['backbone', 'underscore', 'jquery', 'models/search'], function(Backbone,
       'keyup input[type=text]': 'searchDefinition'
     };
 
-    SearchView.prototype.template = _.template("<li><a href=\"#<%= name_ru %>\"><%= name_ru %></a></li>");
+    SearchView.prototype.template = _.template("<li><a href=\"#<%= name_en %>\"><%= name_ru %></a></li>");
 
     SearchView.prototype.renderInitialResults = function(item) {
       var html;
@@ -33,7 +33,7 @@ define(['backbone', 'underscore', 'jquery', 'models/search'], function(Backbone,
 
       console.log('searching...');
       q = this.$('input[type=text]').val();
-      url = "/api/v1/definitions/?name_en__startswith=" + q + "&format=json";
+      url = "/api/v1/search/?q=" + q;
       self = this;
       $.get(url, function(data) {
         var item, model, _i, _len, _ref1, _results;
