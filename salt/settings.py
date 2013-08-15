@@ -59,7 +59,8 @@ INSTALLED_APPS = (
     'south',
     'tastypie',
     'tastypie_swagger',
-    'haystack'
+    'haystack',
+    'gunicorn',
 ) + PROJECT_APPS
 
 TASTYPIE_SWAGGER_API_MODULE = 'dictionary.api.v1_api'
