@@ -46,7 +46,7 @@ class DefinitionSource(models.Model):
         verbose_name=_('definition text')
     )
     source = models.ForeignKey(Source,
-        verbose_name=_('source')
+        verbose_name=_('source'), blank=True, null=True
     )
     bib_info = models.CharField(_('bib info'),
         blank=True, max_length=255

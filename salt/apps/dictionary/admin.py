@@ -7,6 +7,7 @@ from .models import Source, Definition, DefinitionSource
 
 class DefinitionSourceInline(admin.TabularInline):
     model = DefinitionSource
+    extra = 1
 
 
 class DefinitionAdmin(admin.ModelAdmin):

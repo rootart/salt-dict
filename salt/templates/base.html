@@ -23,15 +23,16 @@
   <header class="head cf">
     <div class="wrap">
       <ul class="lang">
-        <li><a href="/en/">en</a></li>
-        <li><a href="/de/">de</a></li>
-        <li><a href="/ru/">ru</a></li>
-        <li><a href="/ua/">ua</a></li>
+        {# <li><a href="/en/">en</a></li> #}
+        {# <li><a href="/de/">de</a></li> #}
+        {# <li><a href="/ru/">ru</a></li> #}
+        {# <li><a href="/ua/">ua</a></li> #}
       </ul>
   	  <nav>
-        <a href="#">login</a>
-        <a href="#" class="active">registration</a>
-        <a href="#">help</a>
+        
+        <a href="{% url 'admin:index' %}">{% trans "login" %}</a>
+        {# <a href="#" class="active">registration</a> #}
+{#         <a href="#">help</a> #}
   	  </nav>
       <!--<a href="#" class="logo">Vocabulary</a>-->
     </div>
@@ -44,9 +45,8 @@
          <div class="layout-left">
            <article class="main">
              <div class="search">
-            	  <form action="" method="post" accept-charset="utf-8">
+            	  <form action="" accept-charset="utf-8">
             	    <input type="text" name="q" value="" id="q">
-            	    <input type="submit" value="search">
             	  </form>
              </div>   
          	   <div>
@@ -57,7 +57,7 @@
          </div>
          <div class="layout-right">
            <aside>
-             <a href="#" class="add">add word</a>
+             <a href="{% url 'admin:dictionary_definition_add' %}" class="add">{% trans "add word" %}</a>
              <div class="value">
              </div>
            </aside>
@@ -68,7 +68,7 @@
    
    <footer>
      <div class="wrap"> 
-       <p>© 2013. All rights reserved</p>
+       <p>© 2013. {% trans "All rights reserved" %}</p>
      </div>
    </footer>
         
