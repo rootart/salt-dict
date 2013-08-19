@@ -9,7 +9,7 @@ define ['backbone', 'underscore', 'jquery', 'models/search'], (Backbone, _, $, S
              <% _.each(sources, function(source) { %> 
              <article class="desc">
                <header>
-                 <%= source.bib_info  %>
+                 <% if (source.source) { %> <%= source.source %>, <% } %> <%= source.bib_info  %>
                </header>
                <p><%= source.text  %></p>
              </article>

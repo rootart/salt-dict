@@ -51,10 +51,14 @@ class DefinitionSource(models.Model):
     bib_info = models.CharField(_('bib info'),
         blank=True, max_length=255
     )
+    position = models.PositiveIntegerField(
+        default=0, verbose_name=_('position')
+    )
 
     def __unicode__(self):
-        return "%s - %s" % (self.definition.name_ru, self.source.name)
+        return "%s - %s" % (self.definition.name_ru, self.source.name if self.source else '')
 
     class Meta:
         verbose_name=_("Definition source")
         verbose_name_plural=_('Definition sources')
+        ordering = ['position',]

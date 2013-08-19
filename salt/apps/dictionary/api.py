@@ -1,9 +1,23 @@
+from django.http import HttpResponse
+
 from tastypie.resources import ModelResource
 from tastypie.api import Api
 from tastypie import fields
+from tastypie import resources
 
 from .models import Definition, DefinitionSource
 from haystack.query import SearchQuerySet
+
+
+def build_content_type(format, encoding='utf-8'):
+    """
+    Appends character encoding to the provided format if not already present.
+    """
+    if 'charset' in format:
+        return format
+
+    return "%s; charset=%s" % (format, encoding)
+
 
 
 class DefinitionSourceResource(ModelResource):
@@ -39,6 +53,17 @@ class SearchDefinitions(ModelResource):
         detail_uri_name = 'name_en'
 
 
+    def create_response(self, request, data, response_class=HttpResponse, **response_kwargs):
+        """
+        Extracts the common "which-format/serialize/return-response" cycle.
+
+        Mostly a useful shortcut/hook.
+        """
+        desired_format = self.determine_format(request)
+        serialized = self.serialize(request, data, desired_format)
+        return response_class(content=serialized, content_type=build_content_type(desired_format), **response_kwargs)
+
+
     def build_filters(self, filters=None):
         if filters is None:
             filters = {}
@@ -53,7 +78,7 @@ class SearchDefinitions(ModelResource):
 
     def dehydrate_sources(self, bundle):
         return [
-            {'text': i.text, 'bib_info': i.bib_info} for i in  bundle.obj.sources.all()
+            {'text': i.text, 'bib_info': i.bib_info, 'source': i.source.full_name if i.source else '' } for i in  bundle.obj.sources.all().order_by('position')
         ]
 
 v1_api = Api(api_name='v1')

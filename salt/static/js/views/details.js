@@ -13,7 +13,7 @@ define(['backbone', 'underscore', 'jquery', 'models/search'], function(Backbone,
       return _ref;
     }
 
-    DetailView.prototype.template = _.template("<ul>\n   <li>\n     <h2>\n       <%= name_ru %> <span>( нем. <%= name_de %>, англ. <%= name_en %> )</span>\n     </h2>\n     <% _.each(sources, function(source) { %> \n     <article class=\"desc\">\n       <header>\n         <%= source.bib_info  %>\n       </header>\n       <p><%= source.text  %></p>\n     </article>\n    <% }); %>\n   </li>\n </ul>");
+    DetailView.prototype.template = _.template("<ul>\n   <li>\n     <h2>\n       <%= name_ru %> <span>( нем. <%= name_de %>, англ. <%= name_en %> )</span>\n     </h2>\n     <% _.each(sources, function(source) { %> \n     <article class=\"desc\">\n       <header>\n         <% if (source.source) { %> <%= source.source %>, <% } %> <%= source.bib_info  %>\n       </header>\n       <p><%= source.text  %></p>\n     </article>\n    <% }); %>\n   </li>\n </ul>");
 
     DetailView.prototype.renderItem = function() {
       var html;
