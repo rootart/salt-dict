@@ -5,3 +5,4 @@ define ['backbone', 'underscore', 'jquery'], (Backbone, _, $)->
       "name_en": ""
       "name_de": ""
       "name_ru": ""
+      "name_ru_slug": ""

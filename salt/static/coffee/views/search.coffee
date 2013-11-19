@@ -5,7 +5,7 @@ define ['backbone', 'underscore', 'jquery', 'models/search'], (Backbone, _, $, S
       'keyup input[type=text]': 'searchDefinition'
 
     template: _.template("""
-    <li><a href="#<%= name_en %>"><%= name_ru %></a></li>
+    <li><a href="#<%= name_ru_slug %>"><%= name_ru %></a></li>
     """)
 
     renderInitialResults: (item)->

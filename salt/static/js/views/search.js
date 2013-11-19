@@ -19,7 +19,7 @@ define(['backbone', 'underscore', 'jquery', 'models/search'], function(Backbone,
       'keyup input[type=text]': 'searchDefinition'
     };
 
-    SearchView.prototype.template = _.template("<li><a href=\"#<%= name_en %>\"><%= name_ru %></a></li>");
+    SearchView.prototype.template = _.template("<li><a href=\"#<%= name_ru_slug %>\"><%= name_ru %></a></li>");
 
     SearchView.prototype.renderInitialResults = function(item) {
       var html;

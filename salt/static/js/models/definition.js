@@ -17,7 +17,8 @@ define(['backbone', 'underscore', 'jquery'], function(Backbone, _, $) {
       "id": "",
       "name_en": "",
       "name_de": "",
-      "name_ru": ""
+      "name_ru": "",
+      "name_ru_slug": ""
     };
 
     return DefinitionItemModel;

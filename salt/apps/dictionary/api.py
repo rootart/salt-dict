@@ -22,8 +22,13 @@ def build_content_type(format, encoding='utf-8'):
 
 class DefinitionSourceResource(ModelResource):
     sources = fields.ListField(use_in='detail', default=[])
+    name_ru_slug = fields.CharField(attribute='name_ru_slug', default='', use_in='list')
     class Meta:
-        queryset = DefinitionSource.objects.all()
+        queryset = Definition.objects.all().extra(
+            select={
+                'name_ru_slug': 'iris_translit(name_ru)'
+            }
+        )
         excludes = ['id',]
         include_resource_uri = False
 
@@ -32,10 +37,16 @@ class DefinitionResource(ModelResource):
     sources = fields.ToManyField(DefinitionSourceResource, 'sources', full=True, null=True,
         related_name='sources', use_in='detail'
     )
+    name_ru_slug = fields.CharField(attribute='name_ru_slug', default='', use_in='list')
+
     class Meta:
-        limit = 100
-        queryset = Definition.objects.all()
+        queryset = Definition.objects.all().extra(
+            select={
+                'name_ru_slug': 'iris_translit(name_ru)'
+            }
+        )
         resource_name = 'definitions'
+        detail_uri_name = 'name_ru_slug'
         list_allowed_methods = ['get',]
         filtering = {
             'name_ru': ('exact', 'startswith'),
@@ -46,11 +57,17 @@ class DefinitionResource(ModelResource):
 
 class SearchDefinitions(ModelResource):
     sources = fields.ListField(use_in='detail', default=[])
+    name_ru_slug = fields.CharField(attribute='name_ru_slug', default='', use_in='list')
+
     class Meta:
         fields = ('name_ru', 'name_en', 'name_de')
-        queryset = Definition.objects.all()
+        queryset = Definition.objects.all().extra(
+            select={
+                'name_ru_slug': 'iris_translit(name_ru)'
+            }
+        )
         resource_name = 'search'
-        detail_uri_name = 'name_en'
+        detail_uri_name = 'name_ru_slug'
 
 
     def create_response(self, request, data, response_class=HttpResponse, **response_kwargs):
