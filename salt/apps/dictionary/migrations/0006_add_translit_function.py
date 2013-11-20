@@ -30,14 +30,14 @@ class Migration(DataMigration):
                     replace(
                     replace(
                         translate(lower($1), 
-                        'абвгдеёзийклмнопрстуфхць ,.', 'abvgdeezijklmnoprstufхc`--'),
+                        'абвгдеёзийклмнопрстуфхць ,.', 'abvgdeezijklmnoprstufхc---'),
                         'ж', 'zh'),
                         'ч', 'ch'),
                         'ш', 'sh'),
                         'щ', 'shh'),
-                        'ъ', '``'),
-                        'ы', 'y`'),
-                        'э', 'e`'),
+                        'ъ', '-'),
+                        'ы', 'y-'),
+                        'э', 'e-'),
                         'ю', 'yu'),
                         'я', 'ya');
             $BODY$
@@ -47,7 +47,9 @@ class Migration(DataMigration):
         cursor.execute(sql)
 
     def backwards(self, orm):
-        "Write your backwards methods here."
+        cursor = connection.cursor()
+        sql = """ DROP FUNCTION IF EXISTS iris_translit(p_string character varying)"""
+        cursor.execute(sql)
 
     models = {
         u'dictionary.definition': {

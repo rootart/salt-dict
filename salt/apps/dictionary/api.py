@@ -4,6 +4,7 @@ from tastypie.resources import ModelResource
 from tastypie.api import Api
 from tastypie import fields
 from tastypie import resources
+from tastypie.exceptions import NotFound
 
 from .models import Definition, DefinitionSource
 from haystack.query import SearchQuerySet
@@ -37,7 +38,7 @@ class DefinitionResource(ModelResource):
     sources = fields.ToManyField(DefinitionSourceResource, 'sources', full=True, null=True,
         related_name='sources', use_in='detail'
     )
-    name_ru_slug = fields.CharField(attribute='name_ru_slug', default='', use_in='list')
+    name_ru_slug = fields.CharField(attribute='name_ru_slug', default='')
 
     class Meta:
         queryset = Definition.objects.all().extra(
@@ -57,7 +58,7 @@ class DefinitionResource(ModelResource):
 
 class SearchDefinitions(ModelResource):
     sources = fields.ListField(use_in='detail', default=[])
-    name_ru_slug = fields.CharField(attribute='name_ru_slug', default='', use_in='list')
+    name_ru_slug = fields.CharField(attribute='name_ru_slug', default='')
 
     class Meta:
         fields = ('name_ru', 'name_en', 'name_de')
@@ -69,6 +70,22 @@ class SearchDefinitions(ModelResource):
         resource_name = 'search'
         detail_uri_name = 'name_ru_slug'
 
+    def obj_get(self, bundle, **kwargs):
+        try:
+            param = kwargs['name_ru_slug']
+            object_list = self.get_object_list(bundle.request).extra(
+                where = ['iris_translit(name_ru)=\'%s\'' % param]
+            )
+            if len(object_list) <= 0:
+                raise self._meta.object_class.DoesNotExist("Couldn't find an instance of '%s' which matched '%s'." % (self._meta.object_class.__name__, stringified_kwargs))
+            elif len(object_list) > 1:
+                raise MultipleObjectsReturned("More than '%s' matched '%s'." % (self._meta.object_class.__name__, stringified_kwargs))
+
+            bundle.obj = object_list[0]
+            self.authorized_read_detail(object_list, bundle)
+            return bundle.obj
+        except ValueError:
+            raise NotFound("Invalid resource lookup data provided (mismatched type).")
 
     def create_response(self, request, data, response_class=HttpResponse, **response_kwargs):
         """

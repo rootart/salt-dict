@@ -11,7 +11,8 @@ class Migration(DataMigration):
         cursor.execute("""CREATE UNIQUE INDEX translit_name_ru on dictionary_definition (iris_translit(name_ru));""")
 
     def backwards(self, orm):
-        "Write your backwards methods here."
+        cursor = connection.cursor()
+        cursor.execute("""DROP INDEX translit_name_ru""")
 
     models = {
         u'dictionary.definition': {
